@@ -7,7 +7,7 @@ import 'package:todonode/Screen/registerScreen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences pref = await SharedPreferences.getInstance();
-  var token = pref.getString('token') ?? '';
+  var token = pref.getString('token') ?? ' ';
   print("token is $token");
 
   runApp(MyApp(
@@ -23,15 +23,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: JwtDecoder.isExpired(token) == false
-          ? MainHome(token: token)
-          : Registerscreen(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: token == ''
+            ? JwtDecoder.isExpired(token) == false
+                ? MainHome(token: token)
+                : Registerscreen()
+            : Registerscreen());
   }
 }
 
